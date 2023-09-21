@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+  kafka:
+    image: wurstmeister/kafka:2.12-2.4.1
+    hostname: kafka
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "HERO_CREATE_EVENT:6:1"
+    ports:
+      - 9092:9092
+  postgresql:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: hero_api
+    volumes:
+      - ../src/main/resources/db/migration/V1__init.sql:/docker-entrypoint-initdb.d/V1__init.sql
+      - ./postgresql/hero-api.sql:/docker-entrypoint-initdb.d/hero-api.sql
+    ports:
+      - 5432:5432

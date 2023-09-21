@@ -1,0 +1,26 @@
+logging:
+  level:
+    org.apache.kafka.clients.producer.ProducerConfig: ERROR
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hero_api?stringType=unspecified
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+    show_sql: true
+    hibernate:
+      ddl-auto: none
+  kafka:
+    bootstrap-servers: localhost:9092
+    topic: HERO_CREATE_EVENT
+  flyway:
+    baseline-on-migrate: true
+
