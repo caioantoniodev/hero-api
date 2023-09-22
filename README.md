@@ -58,10 +58,10 @@ seguindo a estrutura de pastas abaixo
 
 ## ⚡ Getting started
 
-Executa o docker compose para subir as imagens necessárias em container docker (docker-compose-deps.yaml)
+Executa o docker compose para subir as imagens necessárias em container docker (docker-compose.yml)
 
 ```sh
-cd docker && docker-compose up -d
+cd docker-compose && docker-compose up -d
 ```
 
 <br/>
