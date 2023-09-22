@@ -8,7 +8,7 @@
 <br/>
 <br/>
 
-# 🦸🏻 Go Healthy
+# 🦸🏻 Hero API
 Essa api com operações deum crud básico de super heróis para fins de estudo sobre arquitetura orientada a eventos com Kafka.
 
 <br/>
