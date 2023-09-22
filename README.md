@@ -51,7 +51,7 @@ seguindo a estrutura de pastas abaixo
 ## ⌛️ Serviços
 
 - ### 🔱 **Kafka**
-  Essa api usa implementação de event broker com [Kafka](https://kafka.apache.org/) com publicadores e consumidores da fila.
+  Essa api usa implementação de event broker com [Kafka](https://kafka.apache.org/) com publicadores e consumidores do tópico.
 - ### 🐘 **Postgres**
   Essa api usa armazenamento com banco de dados relacional com [PostgreSQL](https://www.postgresql.org/).
 <br/>
