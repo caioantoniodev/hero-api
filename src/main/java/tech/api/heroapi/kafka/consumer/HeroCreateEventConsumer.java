@@ -20,7 +20,6 @@ public class HeroCreateEventConsumer {
     private void consumeEvent(HeroCreateEventModel heroCreateEventModel) {
         log.info("Hero consumed[{}]", heroCreateEventModel);
 
-
         var hero = Heroes.builder()
                 .alignment(HeroAlignmentEnum.valueOf(heroCreateEventModel.getAlignment()))
                 .power(heroCreateEventModel.getPower())
