@@ -31,8 +31,8 @@ public class HeroService {
         heroCreateEventProducer.sendEvent(heroCreateEventModel);
     }
 
-    public HeroResponse getHero(UUID uuid) {
-        var heroes = heroRepository.findById(uuid).orElseThrow();
+    public HeroResponse getHero(String uuid) {
+        var heroes = heroRepository.findById(UUID.fromString(uuid)).orElseThrow();
 
         return new HeroResponse(heroes.getId(),
                 heroes.getName(),

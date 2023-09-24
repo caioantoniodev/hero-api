@@ -24,7 +24,7 @@ public class HeroController {
 
     @GetMapping("/{id}")
     ResponseEntity<?> createHero(@PathVariable String id) {
-        var heroResponse = heroService.getHero(UUID.fromString(id));
+        var heroResponse = heroService.getHero(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(heroResponse);
     }
