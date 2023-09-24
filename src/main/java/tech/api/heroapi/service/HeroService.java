@@ -8,6 +8,7 @@ import tech.api.heroapi.kafka.model.HeroCreateEventModel;
 import tech.api.heroapi.kafka.producer.HeroCreateEventProducer;
 import tech.api.heroapi.repository.HeroRepository;
 import tech.api.heroapi.rest.controller.model.HeroRequest;
+import tech.api.heroapi.rest.controller.model.HeroResponse;
 
 import java.util.UUID;
 
@@ -30,7 +31,14 @@ public class HeroService {
         heroCreateEventProducer.sendEvent(heroCreateEventModel);
     }
 
-    public Heroes getHero(UUID uuid) {
-        return heroRepository.findById(uuid).orElseThrow();
+    public HeroResponse getHero(UUID uuid) {
+        var heroes = heroRepository.findById(uuid).orElseThrow();
+
+        return new HeroResponse(heroes.getId(),
+                heroes.getName(),
+                heroes.getPower(),
+                String.valueOf(heroes.getAlignment()),
+                heroes.getCreatedAt(),
+                heroes.getUpdatedAt());
     }
 }
