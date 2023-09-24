@@ -9,7 +9,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/hero_api?stringType=unspecified
+    url: jdbc:postgresql://localhost:5432/hero_api?stringtype=unspecified
     username: postgres
     password: postgres
   jpa:

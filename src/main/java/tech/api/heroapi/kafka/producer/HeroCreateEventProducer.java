@@ -19,7 +19,7 @@ public class HeroCreateEventProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendEvent() {
-        kafkaTemplate.send(topic, HeroCreateEventModel.builder().name("XPTO").build());
+    public void sendEvent(HeroCreateEventModel heroCreateEventModel) {
+        kafkaTemplate.send(topic, heroCreateEventModel);
     }
 }

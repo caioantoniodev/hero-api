@@ -9,4 +9,6 @@ import lombok.*;
 public class HeroCreateEventModel {
 
     private String name;
+    private String power;
+    private String alignment;
 }
