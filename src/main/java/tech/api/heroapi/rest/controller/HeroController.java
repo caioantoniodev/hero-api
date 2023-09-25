@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import tech.api.heroapi.rest.controller.model.HeroRequest;
 import tech.api.heroapi.service.HeroService;
 
-import java.util.UUID;
-
 @RestController
 public class HeroController {
 
@@ -23,8 +21,15 @@ public class HeroController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<?> createHero(@PathVariable String id) {
+    ResponseEntity<?> getHero(@PathVariable String id) {
         var heroResponse = heroService.getHero(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(heroResponse);
+    }
+
+    @GetMapping
+    ResponseEntity<?> getHeroes() {
+        var heroResponse = heroService.getHeroes();
 
         return ResponseEntity.status(HttpStatus.OK).body(heroResponse);
     }

@@ -3,13 +3,13 @@ package tech.api.heroapi.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tech.api.heroapi.entity.Heroes;
 import tech.api.heroapi.kafka.model.HeroCreateEventModel;
 import tech.api.heroapi.kafka.producer.HeroCreateEventProducer;
 import tech.api.heroapi.repository.HeroRepository;
 import tech.api.heroapi.rest.controller.model.HeroRequest;
 import tech.api.heroapi.rest.controller.model.HeroResponse;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -40,5 +40,18 @@ public class HeroService {
                 String.valueOf(heroes.getAlignment()),
                 heroes.getCreatedAt(),
                 heroes.getUpdatedAt());
+    }
+
+    public List<HeroResponse> getHeroes() {
+        var heroes = heroRepository.findAll();
+
+        return heroes.stream()
+                .map(hero -> new HeroResponse(hero.getId(),
+                        hero.getName(),
+                        hero.getPower(),
+                        String.valueOf(hero.getAlignment()),
+                        hero.getCreatedAt(),
+                        hero.getUpdatedAt()))
+                .toList();
     }
 }
