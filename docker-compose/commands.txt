@@ -1,0 +1,1 @@
+echo '{"name": "Homem Aranha", "power": "Sentido aranha", "alignment":"HERO"}' | ./kafka-console-producer --topic HERO_CREATE_EVENT --broker-list kafka:29092
