@@ -1,16 +1,42 @@
 version: "3.9"
 services:
   zookeeper:
-    image: wurstmeister/zookeeper
-  kafka:
-    image: wurstmeister/kafka:2.12-2.4.1
-    hostname: kafka
+    image: confluentinc/cp-zookeeper:latest
+    hostname: zookeeper
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: localhost
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "HERO_CREATE_EVENT:6:1"
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    restart: always
+    hostname: kafka
     ports:
-      - 9092:9092
+      - '9092:9092'
+      - '29092:29092'
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+
+  kafka-create-topics:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - kafka
+    hostname: kafka-create-topics
+    command: "bash -c 'echo Waiting for Kafka to be ready... && \
+                       cub kafka-ready -b kafka:29092 1 20 && \
+                       kafka-topics --create --topic HERO_CREATE_EVENT --if-not-exists --bootstrap-server kafka:29092 --partitions 3 --replication-factor 1'"
+    environment:
+      KAFKA_BROKER_ID: ignored
+      KAFKA_ZOOKEEPER_CONNECT: ignored
+
   postgresql:
     image: postgres:14.1-alpine
     restart: always
@@ -22,4 +48,4 @@ services:
       - ../src/main/resources/db/migration/V1__init.sql:/docker-entrypoint-initdb.d/V1__init.sql
       - ./postgresql/hero-api.sql:/docker-entrypoint-initdb.d/hero-api.sql
     ports:
-      - 5432:5432
+      - '5432:5432'
