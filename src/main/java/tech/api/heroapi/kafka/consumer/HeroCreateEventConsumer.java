@@ -17,8 +17,8 @@ public class HeroCreateEventConsumer {
     private final HeroRepository heroRepository;
 
     @KafkaListener(topics = "${spring.kafka.topic}", containerFactory = "heroCreateEventListenerFactory")
-    private void consumeEvent(HeroCreateEventModel heroCreateEventModel) {
-        log.info("Hero consumed[{}]", heroCreateEventModel);
+    void consumeEvent(HeroCreateEventModel heroCreateEventModel) {
+        log.info("Hero consumed {} ", heroCreateEventModel);
 
         var hero = Heroes.builder()
                 .alignment(HeroAlignmentEnum.valueOf(heroCreateEventModel.getAlignment()))
@@ -28,6 +28,6 @@ public class HeroCreateEventConsumer {
 
         var heroPersisted = heroRepository.save(hero);
 
-        log.info("Hero persisted[{}]", heroPersisted);
+        log.info("Hero persisted {}", heroPersisted);
     }
 }
