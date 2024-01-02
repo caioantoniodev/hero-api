@@ -21,5 +21,6 @@ public class HeroCreateEventProducer {
 
     public void sendEvent(HeroCreateEventModel heroCreateEventModel) {
         kafkaTemplate.send(topic, heroCreateEventModel);
+        log.info("Hero sent {}", heroCreateEventModel);
     }
 }

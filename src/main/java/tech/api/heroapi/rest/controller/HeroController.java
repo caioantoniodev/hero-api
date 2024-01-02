@@ -33,4 +33,10 @@ public class HeroController {
 
         return ResponseEntity.status(HttpStatus.OK).body(heroResponse);
     }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<?> deleteHero(@PathVariable String id) {
+        heroService.removeHero(id);
+        return ResponseEntity.noContent().build();
+    }
 }
