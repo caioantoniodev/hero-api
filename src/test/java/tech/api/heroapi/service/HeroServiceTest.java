@@ -16,6 +16,7 @@ import tech.api.heroapi.repository.HeroRepository;
 import tech.api.heroapi.rest.controller.model.HeroRequest;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
@@ -66,5 +67,24 @@ public class HeroServiceTest {
 
         Assertions.assertNotNull(firstHeroResponse);
         Assertions.assertEquals(heroes.getId(), firstHeroResponse.id());
+    }
+
+    @Test
+    void shouldBeReturnHeroById() {
+        var heroId = UUID.randomUUID();
+
+        var heroes = Heroes.builder()
+                .id(heroId)
+                .alignment(HeroAlignmentEnum.HERO)
+                .name("Spider Man")
+                .power("Wall-crawling, web-slinging, spider-sense")
+                .build();
+
+        when(heroRepository.findById(any(UUID.class))).thenReturn(Optional.ofNullable(heroes));
+
+        var hero = heroService.getHero(String.valueOf(heroId));
+
+        Assertions.assertNotNull(hero);
+        Assertions.assertEquals(heroes.getId(), hero.id());
     }
 }
