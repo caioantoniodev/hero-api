@@ -3,10 +3,7 @@ package tech.api.heroapi.service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import tech.api.heroapi.entity.Heroes;
 import tech.api.heroapi.entity.enums.HeroAlignmentEnum;
@@ -86,5 +83,23 @@ public class HeroServiceTest {
 
         Assertions.assertNotNull(hero);
         Assertions.assertEquals(heroes.getId(), hero.id());
+    }
+
+    @Test
+    void shouldBeDeleteHeroById() {
+        var heroId = UUID.randomUUID();
+
+        var heroes = Heroes.builder()
+                .id(heroId)
+                .alignment(HeroAlignmentEnum.HERO)
+                .name("Spider Man")
+                .power("Wall-crawling, web-slinging, spider-sense")
+                .build();
+
+        when(heroRepository.findById(any(UUID.class))).thenReturn(Optional.ofNullable(heroes));
+
+        heroService.removeHero(String.valueOf(heroId));
+
+        verify(heroRepository, times(1)).delete(heroes);
     }
 }
