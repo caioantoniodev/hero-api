@@ -1,4 +1,4 @@
-package tech.api.heroapi.entity.enums;
+package tech.api.heroapi.domain.enums;
 
 public enum HeroAlignmentEnum {
     HERO,

@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-import tech.api.heroapi.entity.Heroes;
-import tech.api.heroapi.entity.enums.HeroAlignmentEnum;
+import tech.api.heroapi.domain.Heroes;
+import tech.api.heroapi.domain.enums.HeroAlignmentEnum;
 import tech.api.heroapi.kafka.model.HeroCreateEventModel;
 import tech.api.heroapi.repository.HeroRepository;
 
@@ -21,9 +21,9 @@ public class HeroCreateEventConsumer {
         log.info("Hero consumed {} ", heroCreateEventModel);
 
         var hero = Heroes.builder()
-                .alignment(HeroAlignmentEnum.valueOf(heroCreateEventModel.getAlignment()))
-                .power(heroCreateEventModel.getPower())
-                .name(heroCreateEventModel.getName())
+                .alignment(HeroAlignmentEnum.valueOf(heroCreateEventModel.alignment()))
+                .power(heroCreateEventModel.power())
+                .name(heroCreateEventModel.name())
                 .build();
 
         var heroPersisted = heroRepository.save(hero);

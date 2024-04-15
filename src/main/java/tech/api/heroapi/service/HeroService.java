@@ -3,13 +3,14 @@ package tech.api.heroapi.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tech.api.heroapi.entity.Heroes;
+import tech.api.heroapi.domain.Heroes;
 import tech.api.heroapi.kafka.model.HeroCreateEventModel;
 import tech.api.heroapi.kafka.producer.HeroCreateEventProducer;
 import tech.api.heroapi.repository.HeroRepository;
 import tech.api.heroapi.rest.controller.model.HeroRequest;
 import tech.api.heroapi.rest.controller.model.HeroResponse;
 
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -25,15 +26,14 @@ public class HeroService {
     public void startCreateHero(HeroRequest heroRequest) {
         log.info("received {}", heroRequest);
 
-        var heroCreateEventModel = HeroCreateEventModel.builder()
-                .eventId(UUID.randomUUID().toString())
-                .eventType("NOTIFY_TO_CREATE_HERO")
-                .eventTime(ZonedDateTime.now())
-                .name(heroRequest.name())
-                .alignment(heroRequest.alignment())
-                .power(heroRequest.power()).build();
+        var notifyToCreateHeroModel = new HeroCreateEventModel(UUID.randomUUID().toString(),
+                "NOTIFY_TO_CREATE_HERO",
+                ZonedDateTime.now(ZoneOffset.UTC),
+                heroRequest.name(),
+                heroRequest.power(),
+                heroRequest.alignment());
 
-        heroCreateEventProducer.sendEvent(heroCreateEventModel);
+        heroCreateEventProducer.sendEvent(notifyToCreateHeroModel);
     }
 
     public HeroResponse getHero(String id) {

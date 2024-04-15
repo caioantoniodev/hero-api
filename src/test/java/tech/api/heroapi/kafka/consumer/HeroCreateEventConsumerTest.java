@@ -7,10 +7,13 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tech.api.heroapi.entity.Heroes;
-import tech.api.heroapi.entity.enums.HeroAlignmentEnum;
+import tech.api.heroapi.domain.Heroes;
+import tech.api.heroapi.domain.enums.HeroAlignmentEnum;
 import tech.api.heroapi.kafka.model.HeroCreateEventModel;
 import tech.api.heroapi.repository.HeroRepository;
+
+import java.time.ZonedDateTime;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -29,10 +32,12 @@ public class HeroCreateEventConsumerTest {
 
     @Test
     public void shouldBeConsumeEvent() {
-        var heroCreateEventModel = new HeroCreateEventModel();
-        heroCreateEventModel.setName("Superman");
-        heroCreateEventModel.setPower("Flight");
-        heroCreateEventModel.setAlignment("HERO");
+        var heroCreateEventModel = new HeroCreateEventModel(UUID.randomUUID().toString(),
+                "NOTIFY_TO_CREATE_HERO",
+                ZonedDateTime.now(),
+                "Superman",
+                "Flight",
+                "HERO");
 
         heroCreateEventConsumer.consumeEvent(heroCreateEventModel);
 

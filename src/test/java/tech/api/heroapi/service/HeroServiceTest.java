@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tech.api.heroapi.entity.Heroes;
-import tech.api.heroapi.entity.enums.HeroAlignmentEnum;
+import tech.api.heroapi.domain.Heroes;
+import tech.api.heroapi.domain.enums.HeroAlignmentEnum;
 import tech.api.heroapi.kafka.model.HeroCreateEventModel;
 import tech.api.heroapi.kafka.producer.HeroCreateEventProducer;
 import tech.api.heroapi.repository.HeroRepository;
@@ -46,7 +46,10 @@ public class HeroServiceTest {
 
         var heroCreateEventModel = heroCreateEventModelArgumentCaptor.getValue();
 
-        Assertions.assertEquals("NOTIFY_TO_CREATE_HERO", heroCreateEventModel.getEventType());
+        Assertions.assertEquals("NOTIFY_TO_CREATE_HERO", heroCreateEventModel.eventType());
+        Assertions.assertEquals(heroRequest.name(), heroCreateEventModel.name());
+        Assertions.assertEquals(heroRequest.power(), heroCreateEventModel.power());
+        Assertions.assertEquals(heroRequest.alignment(), heroCreateEventModel.alignment());
     }
 
     @Test
