@@ -8,6 +8,7 @@ import tech.api.heroapi.rest.controller.model.HeroRequest;
 import tech.api.heroapi.service.HeroService;
 
 @RestController
+@RequestMapping("/v1/heroes")
 public class HeroController {
 
     @Autowired
