@@ -1,1 +1,1 @@
-echo '{"eventId": "05551fa6-bedf-4782-ba81-d77115d6d70c", "eventType": "NOTIFY_TO_CREATE_HERO",  "eventTime": "2020-04-14T15:00:00.000Z", "name": "Homem Aranha", "power": "Sentido aranha", "alignment": "HERO" }' | kcat -P -b localhost:9092 -t HERO_CREATE_EVENT
+echo '{"eventId": "05551fa6-bedf-4782-ba81-d77115d6d70c", "eventType": "NOTIFY_TO_CREATE_HERO",  "eventTime": "2020-04-14T15:00:00.000Z", "name": "Homem Aranha", "power": "Sentido aranha", "alignment": "HERO" }' | kcat -P -b localhost:9092 -t
